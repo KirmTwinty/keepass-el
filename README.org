@@ -1,0 +1,38 @@
+#+TITLE:     Keepass.el
+#+AUTHOR:    Thibaud Toullier
+#+EMAIL:     thibaud.toullier@inria.fr
+
+* Keepass.el 
+=Keepass.el= is an interface between =kpcli= (http://kpcli.sourceforge.net/) and Emacs.
+
+* Troubleshooting
+** Missing modules in =kpcli=
+Depending on your method to install =kpcli= you may have to install additional =PERL= modules on CPAN. Check the error returned by =kpcli=. I personally had to install Clipboard and Capture-Tiny modules.
+Either use the =cpanm= command line or compile the modules manually as explained in the CPAN website.
+
+** Copy doesn't work in =kpcli=
+Based on this thread: https://sourceforge.net/p/kpcli/bugs/38/
+
+If the copy in =kpcli= returns no error but nothing is copied onto the clipboard, then check that =xclip= is installed on your machine.
+Then try the following:
+#+BEGIN_SRC sh
+echo "test copy" | xclip -in
+#+END_SRC
+
+If it works, you are ready to go. Otherwise, try this one: 
+#+BEGIN_SRC sh
+echo "test copy" | xclip -in -selection clipboard
+#+END_SRC
+
+If this second one works but not the first one, then perform the following steps: 
+1. Download manually the package Clipboard on CPAN (https://metacpan.org/release/KING/Clipboard-0.13). 
+2. Extract the archive
+3. Go to the Clipboard folder you just extracted 
+4. Open the file =Xclip.pm= under the folder =./lib/Clipboard/=
+5. Modify the line =sub all_selections { qw(primary buffer clipboard secondary) }= to =sub all_selections { qw(clipboard primary buffer secondary) }=
+6. Go back to the Clipboard folder 
+7. Compile and install by running =perl Makefile.PL && make all test && sudo make install=
+
+Now the copy in =kpcli= should work.
+
+
