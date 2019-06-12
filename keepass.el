@@ -71,7 +71,8 @@
 	  (keepass-send (concat "cd '" (car selection) "'"))
 	  (keepass-send "ls") ;; force refresh
 	  (keepass-send (concat "xp " (cadr selection)))
-	  (keepass-send (concat "cd /")))
+	  (keepass-send (concat "cd /"))
+	  (message "Password copied to clipboard!"))
     ;; Otherwise we launch the process
     (let ((keepass-pass (read-passwd "Secret passphrase? ")))
       (setq keepass-kpcli-buffer (shell keepass-kpcli-buffer-name))
@@ -102,7 +103,7 @@
 		    (if tree
 			(add-to-list 'tree el t)
 		      (setq tree (list (concat "/" el))))
-		    (add-to-list 'value (cons el (keepass-parse-entries tree)))
+		    (add-to-list 'value (cons el (keepass-parse-entries tree)) t)
 		    (setq tree (delete el tree))
 		    (keepass-send "cd .."))
 		(if (= entry-type 2)

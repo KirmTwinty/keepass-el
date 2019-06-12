@@ -2,8 +2,33 @@
 #+AUTHOR:    Thibaud Toullier
 #+EMAIL:     thibaud.toullier@inria.fr
 
-* Keepass.el 
-=Keepass.el= is an interface between =kpcli= (http://kpcli.sourceforge.net/) and Emacs.
+* Introduction
+=Keepass.el= is a simple interface between =kpcli= (http://kpcli.sourceforge.net/) and Emacs.
+It uses =popup-el= https://github.com/auto-complete/popup-el to display the entries.
+I just did it for convenience to keep my work-flow inside Emacs and avoid switching between windows to get my passwords copied to the clipboard. 
+A lot of improvements could be done, in particular for security purposes.
+
+* Installation
+** Requirements
+Please make sure that the following are installed 
+- =popup.el= https://github.com/auto-complete/popup-el
+- =kpcli= http://kpcli.sourceforge.net/
+
+** Installation
+Now you can add =keepass.el= to the directory of your choice and in your =.emacs=: 
+#+BEGIN_SRC elisp
+(add-to-list 'load-path "/path/to/keepass-el/")
+(require 'keepass)
+(global-set-key (kbd "C-c p") 'keepass-launch) ;; Set the key to launch it
+#+END_SRC
+
+** Usage
+You can now run =M-x keepass-launch= command or directly hit =C-c p= if you put the previous keyboard shortcut to your =.emacs= file.
+A popup will appear so that you can get your password onto your clipboard. 
+
+_Note:_ The clipboard is not (yet) automatically cleared! 
+
+[[https://github.com/KirmTwinty/keepass-el/raw/master/keepass-el.gif]]
 
 * Troubleshooting
 ** Missing modules in =kpcli=
